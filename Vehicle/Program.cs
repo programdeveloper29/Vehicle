@@ -13,23 +13,24 @@ namespace Vehicle
         static void Main(string[] args)
         {
             char ch;
-            do {
-                
-            //object
-            Car car = new Car();
-            Train train = new Train();
-            Lorry lorry = new Lorry();
-            Console.Write("\n Enter the Vehicle type (car, train , lorry):");
-            string input=Console.ReadLine();
-            if (input.Equals("car")) Program.VehicleRange(car);
-            else if (input.Equals("train")) Program.VehicleRange(train);
-            else if (input.Equals("lorry")) Program.VehicleRange(lorry);
-            else Console.WriteLine("\n You Enter Invaild value");
-            Console.Write("\nDo you want another Type? (y/n): ");
-             ch = Console.ReadKey().KeyChar;
-            Console.WriteLine();
+            do
+            {
 
-        } while (ch == 'y');
+                //object
+                Car car = new Car();
+                Train train = new Train();
+                Lorry lorry = new Lorry();
+                Console.Write("\n Enter the Vehicle type (car, train , lorry):");
+                string input = Console.ReadLine();
+                if (input.Equals("car")) Program.VehicleRange(car);
+                else if (input.Equals("train")) Program.VehicleRange(train);
+                else if (input.Equals("lorry")) Program.VehicleRange(lorry);
+                else Console.WriteLine("\n You Enter Invaild value");
+                Console.Write("\nDo you want another Type? (y/n): ");
+                ch = Console.ReadKey().KeyChar;
+                Console.WriteLine();
+
+            } while (ch == 'y');
 
             // overload
             //Program.VehicleRange(car);
@@ -111,26 +112,54 @@ namespace Vehicle
         static void VehicleRange(Car car)
         {
             Console.WriteLine("\n--- Car ---");
+            //overload
             EnterCommonValues(car);
+            //Interface -method
+            //enter number of passengers
+            Console.Write("\nNumber of Passengers:");
+            string input = Console.ReadLine();
+            if (ushort.TryParse(input, out ushort value))
+            {
+               car.Passengers(value);
+            }
+            else Console.WriteLine("Invaild Value");
             Console.WriteLine($"Car Range = {car.Range()}");
             Console.WriteLine($"Car Speed = {car.Speed}");
+            //Interface - property
+            Console.WriteLine($"Number Of Passengers ={car.NumberOfPassengers}");
         }
 
         // Overload for Train
         static void VehicleRange(Train train)
         {
             Console.WriteLine("\n--- Train ---");
+            //overload
             EnterCommonValues(train);
+            //Interface -method
+            //enter number of passengers
+            Console.Write("\nNumber of Passengers:");
+            string input = Console.ReadLine();
+            if (ushort.TryParse(input, out ushort value))
+            {
+                train.Passengers(value);
+            }
+            else Console.WriteLine("Invaild Value");
             Console.WriteLine($"Train Range = {train.Range()}");
+            //override
             Console.WriteLine($"Train Speed = {train.Speed}");
+            //Interface - property
+            Console.WriteLine($"Number Of Passengers ={train.NumberOfPassengers}");
+
+
         }
 
         // Overload for Lorry
         static void VehicleRange(Lorry lorry)
         {
             Console.WriteLine("\n--- Lorry ---");
+            //overload
             EnterCommonValues(lorry);
-
+            //custom member
             // خاص باللوري
             Console.Write("Enter Goods Type: ");
             lorry.GoodsType = Console.ReadLine();
@@ -167,22 +196,37 @@ public class Vehicles
     private float _speed;
     // proprties
     internal float Capacity { get { return _capacity; } set { _capacity = (value >= 0) ? value : 0; } }
-    internal float KiloPerLitre { get { return _kiloPerLitre; }  set { _kiloPerLitre = (value >= 0) ? value : 0; } }
-    internal virtual float Speed { get { return _speed; }set { _speed = (value >= 0 && value <= 300) ? value : 0; }  }
+    internal float KiloPerLitre { get { return _kiloPerLitre; } set { _kiloPerLitre = (value >= 0) ? value : 0; } }
+    internal virtual float Speed { get { return _speed; } set { _speed = (value >= 0 && value <= 300) ? value : 0; } }
 
     //methods
     internal float Range() { return _capacity * _kiloPerLitre; }
 }
 //Inherants
 //drived/child
-public class Car:Vehicles
+public class Car : Vehicles, IPassengers
+{
+    // fields
+    ushort _numberOfPassengers;
+    //Interface
+    //methods
+    public void Passengers(ushort numberOfPassengers) { _numberOfPassengers = numberOfPassengers; }
+    //property
+    public ushort NumberOfPassengers { get => _numberOfPassengers; }
+}
+public class Train : Vehicles,IPassengers
 {
 
-}
-public class Train: Vehicles
-{
+    // fields
+    ushort _numberOfPassengers;
+    //Interface
+    //methods
+    public void Passengers(ushort numberOfPassengers) { _numberOfPassengers = numberOfPassengers; }
+
+    //property
+    public ushort NumberOfPassengers { get => _numberOfPassengers; }
     //override
-    internal override float Speed { get => base.Speed +3; set => base.Speed = (value >= 0 && value <= 300) ? value : 0;}
+    internal override float Speed { get => base.Speed + 3; set => base.Speed = (value >= 0 && value <= 300) ? value : 0; }
 }
 //custom member : used in just one only child class
 public class Lorry : Vehicles
@@ -191,4 +235,16 @@ public class Lorry : Vehicles
     string _goodsType;
     //properties
     internal string GoodsType { get { return _goodsType; } set { _goodsType = value; } }
+
+    // Interface is contract
+    //Interface can't contain fields
+    //Methods and Properties only are allowed
+    //Methods and Properties are in declaration without implementations
+    //Restrict (member name - member type - number of parameters)
+
+}
+interface IPassengers
+{
+    void Passengers(ushort numberOfPassengers);
+    ushort NumberOfPassengers { get; }
 }

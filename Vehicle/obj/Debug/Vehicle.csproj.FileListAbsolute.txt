@@ -1,7 +1,0 @@
-F:\C#_Programs\Vehicle\Vehicle\bin\Debug\Vehicle.exe.config
-F:\C#_Programs\Vehicle\Vehicle\bin\Debug\Vehicle.exe
-F:\C#_Programs\Vehicle\Vehicle\bin\Debug\Vehicle.pdb
-F:\C#_Programs\Vehicle\Vehicle\obj\Debug\Vehicle.csproj.AssemblyReference.cache
-F:\C#_Programs\Vehicle\Vehicle\obj\Debug\Vehicle.csproj.CoreCompileInputs.cache
-F:\C#_Programs\Vehicle\Vehicle\obj\Debug\Vehicle.exe
-F:\C#_Programs\Vehicle\Vehicle\obj\Debug\Vehicle.pdb
